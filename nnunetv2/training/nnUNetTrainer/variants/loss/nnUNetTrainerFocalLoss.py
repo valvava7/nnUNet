@@ -50,5 +50,5 @@ class nnUNetTrainerDC_FCLoss(nnUNetTrainer):
 class nnUNetTrainerDC_FCLoss_5epochs(nnUNetTrainerDC_FCLoss):
     def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
                  device: torch.device = torch.device('cuda'), weight=(1,1,1,1),gamma=1.0):
-        super().__init__(plans,configuration,fold,dataset_json,device,weight,gamma)
+        super().__init__(plans,configuration,fold,dataset_json,device)
         self.num_epochs = 5
