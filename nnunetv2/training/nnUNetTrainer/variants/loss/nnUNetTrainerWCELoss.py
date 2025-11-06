@@ -8,12 +8,13 @@ import numpy as np
 
 class nnUNetTrainerDC_WCELoss(nnUNetTrainer):
     def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
-                 device: torch.device = torch.device('cuda'), weight=(1,1,1,1)):
+                 device: torch.device = torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device)
-        self.ce_weight = torch.tensor(weight, device=device, dtype=torch.float32)
+        self.weight=(1,1,1,1)
         self.num_epochs = 250
 
     def _build_loss(self):
+        self.ce_weight = torch.tensor(self.weight, device=device, dtype=torch.float32)
         if self.label_manager.has_regions:
             loss = DC_and_BCE_loss({},
                                    {'batch_dice': self.configuration_manager.batch_dice,
@@ -59,7 +60,8 @@ class nnUNetTrainerDC_WCELoss1114(nnUNetTrainerDC_WCELoss):
         dataset_json: dict,
         device: torch.device = torch.device("cuda"),
     ):
-        super().__init__(plans, configuration, fold, dataset_json, device,(1,1,1,4))
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight=(1,1,1,4)
 
 class nnUNetTrainerDC_WCELoss1124(nnUNetTrainerDC_WCELoss):
     def __init__(
@@ -70,7 +72,8 @@ class nnUNetTrainerDC_WCELoss1124(nnUNetTrainerDC_WCELoss):
         dataset_json: dict,
         device: torch.device = torch.device("cuda"),
     ):
-        super().__init__(plans, configuration, fold, dataset_json, device,(1,1,2,4))
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight=(1,1,2,4)
 
 
 class nnUNetTrainerDC_WCELoss_5epochs(nnUNetTrainerDC_WCELoss):

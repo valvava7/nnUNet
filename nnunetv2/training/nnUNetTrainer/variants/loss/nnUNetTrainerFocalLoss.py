@@ -8,16 +8,17 @@ import numpy as np
 
 class nnUNetTrainerDC_FCLoss(nnUNetTrainer):
     def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
-                 device: torch.device = torch.device('cuda'), weight=(1,1,1,1), gamma=1.0):
+                 device: torch.device = torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.num_epochs = 250
-        self.alpha = torch.tensor(weight, dtype=torch.float32)
-        self.gamma = gamma
+        self.weight=(1,1,1,1)
+        self.gamma = 1.0
 
 
     def _build_loss(self):
         assert not self.label_manager.has_regions, 'not implemented'
 
+        self.alpha = torch.tensor(self.weight, dtype=torch.float32)
         loss = DC_and_FC_loss({'batch_dice': self.configuration_manager.batch_dice,'smooth': 1e-5, 'do_bg': False, 'ddp': self.is_ddp},
                                 {'alpha':self.alpha, 'gamma':self.gamma,'device':self.device},
                                 weight_fc=1, weight_dice=1,
@@ -49,6 +50,6 @@ class nnUNetTrainerDC_FCLoss(nnUNetTrainer):
     
 class nnUNetTrainerDC_FCLoss_5epochs(nnUNetTrainerDC_FCLoss):
     def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
-                 device: torch.device = torch.device('cuda'), weight=(1,1,1,1),gamma=1.0):
+                 device: torch.device = torch.device('cuda')):
         super().__init__(plans,configuration,fold,dataset_json,device)
         self.num_epochs = 5
