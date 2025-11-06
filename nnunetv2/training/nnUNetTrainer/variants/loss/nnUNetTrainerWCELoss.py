@@ -11,8 +11,7 @@ class nnUNetTrainerDC_WCELoss(nnUNetTrainer):
                  device: torch.device = torch.device('cuda'), weight=(1,1,1,1)):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.ce_weight = torch.tensor(weight, device=device, dtype=torch.float32)
-
-
+        self.num_epochs = 250
 
     def _build_loss(self):
         if self.label_manager.has_regions:
