@@ -10,7 +10,7 @@ class nnUNetTrainerDC_WCELoss(nnUNetTrainer):
     def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
                  device: torch.device = torch.device('cuda'), weight=(1,1,1,1)):
         super().__init__(plans, configuration, fold, dataset_json, device)
-        self.ce_weight = torch.tensor(weight, device=device)
+        self.ce_weight = torch.tensor(weight, device=device, dtype=torch.float32)
 
 
 
