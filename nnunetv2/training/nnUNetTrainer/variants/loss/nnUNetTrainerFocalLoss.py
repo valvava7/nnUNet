@@ -23,7 +23,7 @@ class nnUNetTrainerDC_FCLoss(nnUNetTrainer):
                                 {'alpha':self.alpha, 'gamma':self.gamma},
                                 weight_fc=1, weight_dice=1,
                                 ignore_label=self.label_manager.ignore_label, dice_class=MemoryEfficientSoftDiceLoss)
-
+        loss.fc.to(self.device)
         if self._do_i_compile():
             loss.dc = torch.compile(loss.dc)
 
