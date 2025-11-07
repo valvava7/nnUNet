@@ -53,7 +53,8 @@ class DC_and_FC_loss(nn.Module):
         target_fc = target[:,0]
         if target_fc.ndim == net_output.ndim:
             assert target_fc.shape[1] == 1
-            target_fc = target_fc[:, 0].long()
+            target_fc = target_fc[:, 0]
+        target_fc = target_fc.long()
 
         dc_loss = self.dc(net_output, target_dice, loss_mask=mask) \
             if self.weight_dice != 0 else 0
