@@ -20,7 +20,7 @@ class nnUNetTrainerDC_FCLoss(nnUNetTrainer):
 
         self.alpha = torch.tensor(self.weight, dtype=torch.float32)
         loss = DC_and_FC_loss({'batch_dice': self.configuration_manager.batch_dice,'smooth': 1e-5, 'do_bg': False, 'ddp': self.is_ddp},
-                                {'alpha':self.alpha, 'gamma':self.gamma,'device':self.device},
+                                {'alpha':self.alpha, 'gamma':self.gamma},
                                 weight_fc=1, weight_dice=1,
                                 ignore_label=self.label_manager.ignore_label, dice_class=MemoryEfficientSoftDiceLoss)
 

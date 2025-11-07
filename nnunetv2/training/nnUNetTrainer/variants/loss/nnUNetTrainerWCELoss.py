@@ -14,7 +14,7 @@ class nnUNetTrainerDC_WCELoss(nnUNetTrainer):
         self.num_epochs = 250
 
     def _build_loss(self):
-        self.ce_weight = torch.tensor(self.weight, device=device, dtype=torch.float32)
+        self.ce_weight = torch.tensor(self.weight, device=self.device, dtype=torch.float32)
         if self.label_manager.has_regions:
             loss = DC_and_BCE_loss({},
                                    {'batch_dice': self.configuration_manager.batch_dice,
