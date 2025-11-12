@@ -12,20 +12,18 @@ class nnUNetTrainerDC_WCELoss(nnUNetTrainer):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.weight=(1,1,1,1)
         self.num_epochs = 250
+        self.ce_args = {}
+        self.dc_args = {'batch_dice': self.configuration_manager.batch_dice,'smooth': 1e-5, 'do_bg': False, 'ddp': self.is_ddp}
+        self.weight_ce = 1
+        self.weight_dice = 1
 
     def _build_loss(self):
-        self.ce_weight = torch.tensor(self.weight, device=self.device, dtype=torch.float32)
-        if self.label_manager.has_regions:
-            loss = DC_and_BCE_loss({},
-                                   {'batch_dice': self.configuration_manager.batch_dice,
-                                    'do_bg': True, 'smooth': 1e-5, 'ddp': self.is_ddp},
-                                   use_ignore_label=self.label_manager.ignore_label is not None,
-                                   dice_class=MemoryEfficientSoftDiceLoss)
-        else:
-            loss = DC_and_CE_loss({'batch_dice': self.configuration_manager.batch_dice,'smooth': 1e-5, 'do_bg': False, 'ddp': self.is_ddp},
-                                  {'weight':self.ce_weight},
-                                  weight_ce=1, weight_dice=1,
-                                  ignore_label=self.label_manager.ignore_label, dice_class=MemoryEfficientSoftDiceLoss)
+        self.ce_args['weight'] = torch.tensor(self.weight, device=self.device, dtype=torch.float32)
+        assert not self.label_manager.has_regions, 'not implemented'
+        loss = DC_and_CE_loss(self.dc_args,
+                                self.ce_args,
+                                self.weight_ce, self.weight_dice,
+                                ignore_label=self.label_manager.ignore_label, dice_class=MemoryEfficientSoftDiceLoss)
 
         if self._do_i_compile():
             loss.dc = torch.compile(loss.dc)
@@ -75,6 +73,18 @@ class nnUNetTrainerDC_WCELoss1124(nnUNetTrainerDC_WCELoss):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.weight=(1,1,2,4)
 
+class nnUNetTrainerDC_WCE03Loss(nnUNetTrainerDC_WCELoss):
+    def __init__(
+        self,
+        plans: dict,
+        configuration: str,
+        fold: int,
+        dataset_json: dict,
+        device: torch.device = torch.device("cuda"),
+    ):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight=(1,1,1,1)
+        self.weight_ce = 0.3
 
 class nnUNetTrainerDC_WCELoss_5epochs(nnUNetTrainerDC_WCELoss):
     def __init__(
