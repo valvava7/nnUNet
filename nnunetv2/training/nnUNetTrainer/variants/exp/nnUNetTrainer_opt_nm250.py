@@ -1,8 +1,11 @@
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs_NoMirroring import nnUNetTrainer_250epochs_NoMirroring
-from nnunetv2.training.nnUNetTrainer.variants.optimizer.nnUNetTrainerAdam import nnUNetTrainerVanillaAdam
+from nnunetv2.training.nnUNetTrainer.variants.optimizer.nnUNetTrainerAdam import nnUNetTrainerVanillaAdam, nnUNetTrainerAdam
 from nnunetv2.training.nnUNetTrainer.variants.optimizer.nnUNetTrainerAdan import nnUNetTrainerAdan
 
 class nnUNetTrainer_vadam_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerVanillaAdam):
+    pass
+
+class nnUNetTrainer_adam_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerAdam):
     pass
 
 class nnUNetTrainer_adan_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerAdan):
