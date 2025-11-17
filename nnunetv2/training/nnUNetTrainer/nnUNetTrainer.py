@@ -923,9 +923,17 @@ class nnUNetTrainer(object):
         save_json(self.dataset_json, join(self.output_folder_base, 'dataset.json'), sort_keys=False)
 
         # we don't really need the fingerprint but its still handy to have it with the others
-        shutil.copy(join(self.preprocessed_dataset_folder_base, 'dataset_fingerprint.json'),
-                    join(self.output_folder_base, 'dataset_fingerprint.json'))
-
+        try :
+            shutil.copy(join(self.preprocessed_dataset_folder_base, 'dataset_fingerprint.json'),
+                        join(self.output_folder_base, 'dataset_fingerprint.json'))
+        except Exception as e:
+            print(e)
+            print('using read write.')
+            src = join(self.preprocessed_dataset_folder_base, 'dataset_fingerprint.json')
+            dst = join(self.output_folder_base, 'dataset_fingerprint.json')
+            with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
+                fdst.write(fsrc.read()) 
+            
         # produces a pdf in output folder
         self.plot_network_architecture()
 
