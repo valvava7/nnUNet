@@ -927,8 +927,9 @@ class nnUNetTrainer(object):
             shutil.copy(join(self.preprocessed_dataset_folder_base, 'dataset_fingerprint.json'),
                         join(self.output_folder_base, 'dataset_fingerprint.json'))
         except Exception as e:
-            print(e)
-            print('using read write.')
+            # shutil.copy calls os.chmod() which cause error when running training by different users
+            # so now we can run different training folds by two or more users(on linux)
+            print(e, 'Using read write copy.')
             src = join(self.preprocessed_dataset_folder_base, 'dataset_fingerprint.json')
             dst = join(self.output_folder_base, 'dataset_fingerprint.json')
             with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
