@@ -14,5 +14,19 @@ class nnUNetTrainer_adan1en3_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTr
 class nnUNetTrainer_adam3en4_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerAdam3en4):
     pass
 
+class nnUNetTrainer_1en3_nm250(nnUNetTrainer_250epochs_NoMirroring):
+    def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict, device: torch.device = torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.initial_lr=1e-3
+
+class nnUNetTrainer_adam1en3_nm250_wd0():
+    def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict, device: torch.device = torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight_decay = 0
+
+class nnUNetTrainer_adam1en3_nm250_wd3en6():
+    def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict, device: torch.device = torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight_decay = 3e-6
 
 
