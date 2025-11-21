@@ -1,8 +1,4 @@
-from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs_NoMirroring import nnUNetTrainer_250epochs_NoMirroring
-from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs import nnUNetTrainer_250epochs
-from nnunetv2.training.nnUNetTrainer.variants.data_augmentation.nnUNetTrainerNoDA import nnUNetTrainerNoDA
 import numpy as np
-
 from typing import Tuple, Union, List
 
 from batchgeneratorsv2.helpers.scalar_type import RandomScalar 
@@ -26,6 +22,11 @@ from batchgeneratorsv2.transforms.utils.pseudo2d import Convert3DTo2DTransform, 
 from batchgeneratorsv2.transforms.utils.random import RandomTransform
 from batchgeneratorsv2.transforms.utils.remove_label import RemoveLabelTansform
 from batchgeneratorsv2.transforms.utils.seg_to_regions import ConvertSegmentationToRegionsTransform
+
+from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs_NoMirroring import nnUNetTrainer_250epochs_NoMirroring
+from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs import nnUNetTrainer_250epochs
+from nnunetv2.training.nnUNetTrainer.variants.data_augmentation.nnUNetTrainerNoDA import nnUNetTrainerNoDA
+from nnunetv2.training.nnUNetTrainer.variants.exp.nnUNetTrainer_opt_nm250 import nnUNetTrainer_adam1en3_nm250
 
 
 class nnUNetTrainer_onlyMirror01_250(nnUNetTrainer_250epochs):
@@ -57,7 +58,7 @@ class nnUNetTrainer_DA0_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainer
     pass
 
 # weaker scaling
-class nnUNetTrainer_DA2_nm250(nnUNetTrainer_250epochs_NoMirroring):
+class nnUNetTrainer_DA2_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
             rotation_for_DA: RandomScalar,
@@ -210,7 +211,7 @@ class nnUNetTrainer_DA2_nm250(nnUNetTrainer_250epochs_NoMirroring):
         return ComposeTransforms(transforms)
     
 # weaker intensity transform
-class nnUNetTrainer_DA3_nm250(nnUNetTrainer_250epochs_NoMirroring):
+class nnUNetTrainer_DA3_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
             rotation_for_DA: RandomScalar,
@@ -364,7 +365,7 @@ class nnUNetTrainer_DA3_nm250(nnUNetTrainer_250epochs_NoMirroring):
         return ComposeTransforms(transforms)
     
 # weaker SimulateLowResolutionTransform
-class nnUNetTrainer_DA4_nm250(nnUNetTrainer_250epochs_NoMirroring):
+class nnUNetTrainer_DA4_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
             rotation_for_DA: RandomScalar,
