@@ -59,6 +59,7 @@ class nnUNetTrainer_DA0_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainer
 
 # weaker scaling
 class nnUNetTrainer_DA2_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
+    @staticmethod
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
             rotation_for_DA: RandomScalar,
@@ -212,6 +213,7 @@ class nnUNetTrainer_DA2_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
     
 # weaker intensity transform
 class nnUNetTrainer_DA3_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
+    @staticmethod
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
             rotation_for_DA: RandomScalar,
@@ -366,6 +368,7 @@ class nnUNetTrainer_DA3_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
     
 # weaker SimulateLowResolutionTransform
 class nnUNetTrainer_DA4_nm250_adam1en3(nnUNetTrainer_adam1en3_nm250):
+    @staticmethod
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
             rotation_for_DA: RandomScalar,
