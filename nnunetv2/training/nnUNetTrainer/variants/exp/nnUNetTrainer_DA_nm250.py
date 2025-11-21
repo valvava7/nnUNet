@@ -1,5 +1,6 @@
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs_NoMirroring import nnUNetTrainer_250epochs_NoMirroring
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs import nnUNetTrainer_250epochs
+from nnunetv2.training.nnUNetTrainer.variants.data_augmentation.nnUNetTrainerNoDA import nnUNetTrainerNoDA
 import numpy as np
 
 class nnUNetTrainer_onlyMirror01_250(nnUNetTrainer_250epochs):
@@ -25,3 +26,7 @@ class nnUNetTrainer_DA1_nm250(nnUNetTrainer_250epochs_NoMirroring):
         rotation_for_DA = (-15. / 360 * 2. * np.pi, 15. / 360 * 2. * np.pi)
         
         return rotation_for_DA, do_dummy_2d_data_aug, initial_patch_size, mirror_axes
+    
+
+class nnUNetTrainer_DA0_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerNoDA):
+    pass
