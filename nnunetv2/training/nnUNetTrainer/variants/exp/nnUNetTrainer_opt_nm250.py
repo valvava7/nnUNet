@@ -33,4 +33,8 @@ class nnUNetTrainer_adam1en3_nm250_wd3en6(nnUNetTrainer_adam1en3_nm250):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.weight_decay = 3e-6
 
-
+class nnUNetTrainer_nm250_wd3en4(nnUNetTrainer_250epochs_NoMirroring):
+    def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
+                 device: torch.device = torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight_decay = 3e-4

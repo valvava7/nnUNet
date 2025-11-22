@@ -58,7 +58,7 @@ class nnUNetTrainer_DA1_nm250(nnUNetTrainer_250epochs_NoMirroring):
 class nnUNetTrainer_DA0_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerNoDA):
     pass
 
-
+# weaker scaling
 class nnUNetTrainer_DA2_nm250(nnUNetTrainer_250epochs_NoMirroring):
     @staticmethod
     def get_training_transforms(
