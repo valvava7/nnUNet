@@ -1,7 +1,11 @@
 import torch
+import torch_optimizer
+
+from nnunetv2.training.lr_scheduler.polylr import PolyLRScheduler
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs_NoMirroring import nnUNetTrainer_250epochs_NoMirroring
 from nnunetv2.training.nnUNetTrainer.variants.optimizer.nnUNetTrainerAdam import nnUNetTrainerVanillaAdam, nnUNetTrainerAdam1en3, nnUNetTrainerAdam3en4
 from nnunetv2.training.nnUNetTrainer.variants.optimizer.nnUNetTrainerAdan import nnUNetTrainerAdan1en3, nnUNetTrainerAdan3en4
+
 
 class nnUNetTrainer_vadam_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerVanillaAdam):
     pass
@@ -38,3 +42,39 @@ class nnUNetTrainer_nm250_wd3en4(nnUNetTrainer_250epochs_NoMirroring):
                  device: torch.device = torch.device('cuda')):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.weight_decay = 3e-4
+
+class nnUNetTrainer_SGDWwd3en4(nnUNetTrainer_250epochs_NoMirroring):
+    def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
+                 device: torch.device = torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight_decay = 3e-4
+
+    def configure_optimizers(self):
+        optimizer = torch_optimizer.SGDW(
+            self.network.parameters(),
+            lr=self.initial_lr,
+            weight_decay=self.weight_decay,
+            momentum=0.99,nesterov=True,
+            )
+        # optimizer = torch.optim.SGD(self.network.parameters(), self.initial_lr, weight_decay=self.weight_decay,
+        #                             momentum=0.99, nesterov=True)
+        lr_scheduler = PolyLRScheduler(optimizer, self.initial_lr, self.num_epochs)
+        return optimizer, lr_scheduler
+    
+class nnUNetTrainer_Yogi(nnUNetTrainer_250epochs_NoMirroring):
+    def __init__(self, plans: dict, configuration: str, fold: int, dataset_json: dict,
+                 device: torch.device = torch.device('cuda')):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight_decay = 0
+        self.initial_lr = 1e-3
+
+    def configure_optimizers(self):
+        optimizer = torch_optimizer.Yogi(
+            self.network.parameters(),
+            lr=self.initial_lr,
+            weight_decay=self.weight_decay,
+            )
+        # optimizer = torch.optim.SGD(self.network.parameters(), self.initial_lr, weight_decay=self.weight_decay,
+        #                             momentum=0.99, nesterov=True)
+        lr_scheduler = PolyLRScheduler(optimizer, self.initial_lr, self.num_epochs)
+        return optimizer, lr_scheduler
