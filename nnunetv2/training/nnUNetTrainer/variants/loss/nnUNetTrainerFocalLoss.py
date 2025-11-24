@@ -19,12 +19,12 @@ class nnUNetTrainerDC_FCLoss(nnUNetTrainer):
     def _build_loss(self):
         assert not self.label_manager.has_regions, 'not implemented'
 
-        self.alpha = torch.tensor(self.weight, dtype=torch.float32)
+        self.alpha = torch.tensor(self.weight, device=self.device, dtype=torch.float32)
         loss = DC_and_FC_loss({'batch_dice': self.configuration_manager.batch_dice,'smooth': 1e-5, 'do_bg': False, 'ddp': self.is_ddp},
                                 {'alpha':self.alpha, 'gamma':self.gamma},
                                 weight_fc=1, weight_dice=1,
                                 ignore_label=self.label_manager.ignore_label, dice_class=MemoryEfficientSoftDiceLoss)
-        loss.fc.to(self.device)
+        
         if self._do_i_compile():
             loss.dc = torch.compile(loss.dc)
 
@@ -65,7 +65,7 @@ class nnUNetTrainerDC_FC3Loss_NM250(nnUNetTrainer_250epochs_NoMirroring):
                                 {'alpha':self.alpha, 'gamma':self.gamma},
                                 weight_fc=1, weight_dice=1,
                                 ignore_label=self.label_manager.ignore_label, dice_class=MemoryEfficientSoftDiceLoss)
-        loss.fc.to(self.device)
+        
         if self._do_i_compile():
             loss.dc = torch.compile(loss.dc)
 

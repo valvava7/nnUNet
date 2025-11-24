@@ -98,3 +98,19 @@ class nnUNetTrainerDC_WCELoss_5epochs__NM250(nnUNetTrainerDC_WCELoss_NM250):
         super().__init__(plans, configuration, fold, dataset_json, device)
         self.num_epochs = 5
 
+class nnUNetTrainer_DC03WCELoss_nm250(nnUNetTrainerDC_WCELoss_NM250):
+    def __init__(
+        self,
+        plans: dict,
+        configuration: str,
+        fold: int,
+        dataset_json: dict,
+        device: torch.device = torch.device("cuda"),
+    ):
+        super().__init__(plans, configuration, fold, dataset_json, device)
+        self.weight=(1,1,1,1)
+        self.weight_dice=0.3
+
+from nnunetv2.training.nnUNetTrainer.variants.loss.nnUNetTrainerCELoss import nnUNetTrainerCELoss
+class nnUNetTrainer_CELoss_nm250(nnUNetTrainer_250epochs_NoMirroring, nnUNetTrainerCELoss):
+    pass
