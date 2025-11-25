@@ -172,10 +172,11 @@ class DatasetFingerprintExtractor(object):
                                  if 'channel_names' in self.dataset_json.keys()
                                  else self.dataset_json['modality'].keys())
             intensity_statistics_per_channel = {}
-            percentiles = np.array((0.5, 50.0, 99.5))
+            #percentiles = np.array((0.5, 50.0, 99.5))
+            percentiles = np.array((0.5, 50.0, 99.5, 99.75, 99.85, 99.95))
             for i in range(num_channels):
-                percentile_00_5, median, percentile_99_5 = np.percentile(foreground_intensities_per_channel[i],
-                                                                         percentiles)
+                percentile_00_5, median, percentile_99_5, percentile_99_75, percentile_99_85, percentile_99_95 =\
+                      np.percentile(foreground_intensities_per_channel[i], percentiles)
                 intensity_statistics_per_channel[i] = {
                     'mean': float(np.mean(foreground_intensities_per_channel[i])),
                     'median': float(median),
@@ -184,6 +185,9 @@ class DatasetFingerprintExtractor(object):
                     'max': float(np.max(foreground_intensities_per_channel[i])),
                     'percentile_99_5': float(percentile_99_5),
                     'percentile_00_5': float(percentile_00_5),
+                    'percentile_99_75':float(percentile_99_75),
+                    'percentile_99_85':float(percentile_99_85),
+                    'percentile_99_95':float(percentile_99_95),
                 }
 
             fingerprint = {
