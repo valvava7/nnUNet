@@ -85,6 +85,23 @@ class CTHalfNormalization(ImageNormalization):
         return image
     
 
+class CTNormalization800(ImageNormalization):
+    leaves_pixels_outside_mask_at_zero_if_use_mask_for_norm_is_true = False
+
+    def run(self, image: np.ndarray, seg: np.ndarray = None) -> np.ndarray:
+        assert self.intensityproperties is not None, "CTNormalization requires intensity properties"
+        mean_intensity = self.intensityproperties['mean']
+        std_intensity = self.intensityproperties['std']
+        lower_bound = self.intensityproperties['percentile_00_5']
+        upper_bound = 800.0
+
+        image = image.astype(self.target_dtype, copy=False)
+        np.clip(image, lower_bound, upper_bound, out=image)
+        image -= mean_intensity
+        image /= max(std_intensity, 1e-8)
+        return image
+
+
 class NoNormalization(ImageNormalization):
     leaves_pixels_outside_mask_at_zero_if_use_mask_for_norm_is_true = False
 
