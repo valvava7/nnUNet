@@ -131,3 +131,27 @@ class RGBTo01Normalization(ImageNormalization):
         image /= 255.
         return image
 
+# normalize per case to avoid dataleakage
+class CTNPC(ImageNormalization):
+    leaves_pixels_outside_mask_at_zero_if_use_mask_for_norm_is_true = False
+
+    def run(self, image: np.ndarray, seg: np.ndarray = None) -> np.ndarray:
+        mu, sigma = image.mean(), image.std()
+        image = image.astype(self.target_dtype, copy=False)
+        image -= mu
+        image /= np.maximum(sigma, 1e-8)
+        return image
+    
+# clip and scale
+class WINDOW(ImageNormalization):
+    leaves_pixels_outside_mask_at_zero_if_use_mask_for_norm_is_true = False
+
+    def run(self, image: np.ndarray, seg: np.ndarray = None) -> np.ndarray:
+        lower_bound = -256.0
+        upper_bound = 1024
+
+        image = image.astype(self.target_dtype, copy=False)
+        np.clip(image, lower_bound, upper_bound, out=image)
+        image /= 200.0
+        return image
+    
