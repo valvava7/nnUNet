@@ -154,4 +154,15 @@ class WINDOW(ImageNormalization):
         np.clip(image, lower_bound, upper_bound, out=image)
         image /= 200.0
         return image
+
+class WINDOW_M(ImageNormalization):
+    leaves_pixels_outside_mask_at_zero_if_use_mask_for_norm_is_true = False
+    def run(self, image: np.ndarray, seg: np.ndarray = None) -> np.ndarray:
+        lower_bound = -256.0
+        upper_bound = 512
+
+        image = image.astype(self.target_dtype, copy=False)
+        np.clip(image, lower_bound, upper_bound, out=image)
+        image /= 200.0
+        return image
     
