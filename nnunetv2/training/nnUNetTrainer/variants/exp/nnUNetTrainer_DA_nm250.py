@@ -30,7 +30,7 @@ from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepo
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs import nnUNetTrainer_250epochs
 from nnunetv2.training.nnUNetTrainer.variants.data_augmentation.nnUNetTrainerNoDA import nnUNetTrainerNoDA
 from nnunetv2.training.nnUNetTrainer.variants.exp.nnUNetTrainer_opt_nm250 import nnUNetTrainer_adam1en3_nm250
-
+from nnunetv2.training.nnUNetTrainer.variants.exp.nnUNetTrainer_DC_nm250 import nnUNetTrainerDiceCELoss_noSmooth_NM250
 
 class nnUNetTrainer_onlyMirror01_250(nnUNetTrainer_250epochs):
     """
@@ -1463,7 +1463,6 @@ class nnUNetTrainer_DA7_nm250(nnUNetTrainer_250epochs_NoMirroring):
 
         return ComposeTransforms(transforms)
 
-
 # no invert image
 class nnUNetTrainer_DA8_nm250(nnUNetTrainer_250epochs_NoMirroring):
     @staticmethod
@@ -1620,5 +1619,8 @@ class nnUNetTrainer_DA8_nm250(nnUNetTrainer_250epochs_NoMirroring):
 
         return ComposeTransforms(transforms)
     
+class nnUNetTrainer_DA8L15_nm250(nnUNetTrainerDiceCELoss_noSmooth_NM250, nnUNetTrainer_DA7_nm250):
+    pass
+
 
 
