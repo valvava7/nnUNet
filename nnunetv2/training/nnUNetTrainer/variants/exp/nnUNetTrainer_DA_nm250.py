@@ -23,7 +23,8 @@ from batchgeneratorsv2.transforms.utils.random import RandomTransform
 from batchgeneratorsv2.transforms.utils.remove_label import RemoveLabelTansform
 from batchgeneratorsv2.transforms.utils.seg_to_regions import ConvertSegmentationToRegionsTransform
 
-from batchgeneratorsv2.transforms.local.local_gamma import LocalGammaTransform, BrightnessGradientAdditiveTransform
+from batchgeneratorsv2.transforms.local.local_gamma import LocalGammaTransform
+from batchgeneratorsv2.transforms.local.brightness_gradient import BrightnessGradientAdditiveTransform
 
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs_NoMirroring import nnUNetTrainer_250epochs_NoMirroring
 from nnunetv2.training.nnUNetTrainer.variants.training_length.nnUNetTrainer_Xepochs import nnUNetTrainer_250epochs
