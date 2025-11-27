@@ -1464,7 +1464,7 @@ class nnUNetTrainer_DA7_nm250(nnUNetTrainer_250epochs_NoMirroring):
 
 
 # no invert image
-class nnUNetTrainer_DA7_nm250(nnUNetTrainer_250epochs_NoMirroring):
+class nnUNetTrainer_DA8_nm250(nnUNetTrainer_250epochs_NoMirroring):
     @staticmethod
     def get_training_transforms(
             patch_size: Union[np.ndarray, Tuple[int]],
