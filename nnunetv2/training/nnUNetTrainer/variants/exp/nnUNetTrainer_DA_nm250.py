@@ -1619,7 +1619,7 @@ class nnUNetTrainer_DA8_nm250(nnUNetTrainer_250epochs_NoMirroring):
 
         return ComposeTransforms(transforms)
     
-class nnUNetTrainer_DA8L15_nm250(nnUNetTrainerDiceCELoss_noSmooth_NM250, nnUNetTrainer_DA7_nm250):
+class nnUNetTrainer_DA7L15_nm250(nnUNetTrainerDiceCELoss_noSmooth_NM250, nnUNetTrainer_DA7_nm250):
     pass
 
 
