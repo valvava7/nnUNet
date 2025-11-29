@@ -183,7 +183,7 @@ class nnUNetTRainer_DC0CE(nnUNetTrainerNoMirroring):
         return loss
 
 
-class nnUNetTRainer_DC0CE(nnUNetTrainer):
+class nnUNetTRainer_DC0CE_1000(nnUNetTrainer):
     def _build_loss(self):
         # set smooth to 0
         if self.label_manager.has_regions:
